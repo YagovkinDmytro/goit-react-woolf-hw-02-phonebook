@@ -1,44 +1,66 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import PhonebookForm from './PhonebookForm/PhonebookForm';
-import Contacts from './Contacts/Contacts';
 import Section from './Section/Section';
 import './Section/section.css';
+import ContactsList from './ContactsList/ContactsList';
+import FilterContacts from './FilterContacts/FilterContacts';
 
-let contacts = false;
+const INITIAL_STATE = {
+  name: '',
+  number: '',
+};
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
 
   handleSubmit = evt => {
     evt.preventDefault();
-    const form = evt.currentTarget;
-    // const name = form.name.value;
-    // console.log(name);
-    // this.props.submit(...this.state);
-    // console.log(this.props.submit(...this.state));
-    // const { contacts, name, number } = this.state;
-    // this.props.submit({ contacts, name, number });
     this.createNewContact();
-    contacts = true;
-    form.reset();
   };
 
   handleChange = ({ target: { value, name } }) => {
-    // Контрольована валідація
+    if (
+      value.includes(
+        "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+      )
+    )
+      return;
+    if (
+      value.includes(
+        '+?d{1,4}?[ .-s]?(?d{1,3}?)?[ .-s]?d{1,4}[ .-s]?d{1,4}[ .-s]?d{1,9}'
+      )
+    )
+      return;
+
+    this.setState({ [name]: value });
+    console.log(value);
+    console.log(this.state.filter);
+    this.filterContacts(this.state.contacts, this.state.filter);
+  };
+
+  filterContacts = (contacts, valueFilter) => {
+    return console.log(
+      contacts.filter(contact =>
+        contact.name.toLowerCase().startsWith(valueFilter.toLowerCase())
+      )
+    );
+  };
+
+  createNewContact = () => {
     // if (isExist) {
     //   alert(`${name} is already in contacts.`);
     //   return;
     // }
-    // if (value.includes('@')) return;
-    // if (value.includes('@')) alert('name is already in contacts.');
-    this.setState({ [name]: value });
-  };
-
-  createNewContact = () => {
     const loginInputId = nanoid();
     this.setState(prev => ({
       contacts: [
@@ -48,19 +70,27 @@ export class App extends Component {
     }));
   };
 
+  setInitialState = () => {
+    // this.setState(prev => { {...this.prev}, {...INITIAL_STATE}});
+  };
+
   render() {
     return (
       <div className="container">
         <Section title="Phonebook">
           <PhonebookForm
-            handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
             stateName={this.state.name}
             stateNumber={this.state.number}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
           />
         </Section>
         <Section title="Contacts">
-          {contacts && <Contacts contactsArr={this.state.contacts} />}
+          <FilterContacts
+            stateFilter={this.state.filter}
+            handleChange={this.handleChange}
+          />
+          <ContactsList contactsArr={this.state.contacts} />
         </Section>
       </div>
     );

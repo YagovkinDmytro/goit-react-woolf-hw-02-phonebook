@@ -1,5 +1,4 @@
-const Contacts = ({ contactsArr }) => {
-  console.log(contactsArr);
+const ContactsList = ({ contactsArr }) => {
   return (
     <ul>
       {contactsArr.map(({ id, name, number }) => (
@@ -11,4 +10,4 @@ const Contacts = ({ contactsArr }) => {
   );
 };
 
-export default Contacts;
+export default ContactsList;

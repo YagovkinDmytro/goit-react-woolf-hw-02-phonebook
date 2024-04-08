@@ -25,7 +25,7 @@ const PhonebookForm = ({
             />
           </div>
           <div>
-            <label htmlFor="name" className="form-lable">
+            <label htmlFor="number" className="form-lable">
               Number
             </label>
             <input
