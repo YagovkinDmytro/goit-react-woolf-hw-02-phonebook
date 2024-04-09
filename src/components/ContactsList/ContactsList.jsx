@@ -1,4 +1,5 @@
 const ContactsList = ({ contactsArr }) => {
+  console.log(contactsArr);
   return (
     <ul>
       {contactsArr.map(({ id, name, number }) => (
