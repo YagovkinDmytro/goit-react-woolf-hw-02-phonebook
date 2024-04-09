@@ -26,12 +26,15 @@ export class App extends Component {
   };
 
   createNewContact = ({ name, number }) => {
-    const existContactName = this.state.contacts.map(contact => {
-      console.log(contact.name.toLowerCase());
-      if (name.toLowerCase() === contact.name.toLowerCase()) {
-        alert(`${name} is already in contacts.`);
-      }
-    });
+    const isExist = this.state.contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    // .map(contact => contact.name.toLowerCase())
+    // .includes(name.toLowerCase());
+    if (isExist) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
     const loginInputId = nanoid();
     this.setState(prev => ({
       contacts: [...prev.contacts, { id: loginInputId, name, number }],
