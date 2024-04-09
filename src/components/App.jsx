@@ -43,19 +43,9 @@ export class App extends Component {
       )
     )
       return;
-
     this.setState({ [name]: value });
     console.log(value);
-    console.log(this.state.filter);
-    this.filterContacts(this.state.contacts, this.state.filter);
-  };
-
-  filterContacts = (contacts, valueFilter) => {
-    return console.log(
-      contacts.filter(contact =>
-        contact.name.toLowerCase().startsWith(valueFilter.toLowerCase())
-      )
-    );
+    this.filterContacts(this.state.contacts, value);
   };
 
   createNewContact = () => {
@@ -70,6 +60,14 @@ export class App extends Component {
         { id: loginInputId, name: this.state.name, number: this.state.number },
       ],
     }));
+  };
+
+  filterContacts = (contacts, valueFilter) => {
+    return this.setState({
+      contacts: contacts.filter(contact =>
+        contact.name.toLowerCase().startsWith(valueFilter.toLowerCase())
+      ),
+    });
   };
 
   setInitialState = () =>
