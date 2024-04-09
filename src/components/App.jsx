@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   name: '',
   number: '',
 };
+
 export class App extends Component {
   state = {
     contacts: [
@@ -26,6 +27,7 @@ export class App extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
     this.createNewContact();
+    this.setInitialState();
   };
 
   handleChange = ({ target: { value, name } }) => {
@@ -70,9 +72,10 @@ export class App extends Component {
     }));
   };
 
-  setInitialState = () => {
-    // this.setState(prev => { {...this.prev}, {...INITIAL_STATE}});
-  };
+  setInitialState = () =>
+    this.setState({
+      ...INITIAL_STATE,
+    });
 
   render() {
     return (
