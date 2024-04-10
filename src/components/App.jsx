@@ -5,7 +5,9 @@ import Section from './Section/Section';
 import './Section/section.css';
 import ContactsList from './ContactsList/ContactsList';
 import FilterContacts from './FilterContacts/FilterContacts';
-
+import './PhonebookForm/phonebookForm.css';
+import './FilterContacts/filterContacts.css';
+import './ContactsList/contactsList.css';
 export class App extends Component {
   state = {
     contacts: [
@@ -29,8 +31,6 @@ export class App extends Component {
     const isExist = this.state.contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-    // .map(contact => contact.name.toLowerCase())
-    // .includes(name.toLowerCase());
     if (isExist) {
       alert(`${name} is already in contacts.`);
       return;
@@ -47,6 +47,12 @@ export class App extends Component {
     );
   };
 
+  handleDelete = id => {
+    this.setState(prev => ({
+      contacts: prev.contacts.filter(elem => elem.id !== id),
+    }));
+  };
+
   render() {
     return (
       <div className="container">
@@ -58,7 +64,10 @@ export class App extends Component {
             stateFilter={this.state.filter}
             handleChange={this.handleChange}
           />
-          <ContactsList contactsArr={this.filterContacts()} />
+          <ContactsList
+            contactsArr={this.filterContacts()}
+            handleDelete={this.handleDelete}
+          />
         </Section>
       </div>
     );
